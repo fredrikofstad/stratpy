@@ -1,15 +1,41 @@
-struct Game {
+use pyo3::prelude::*;
+
+// Structs and methods to be used in python
+
+#[pyclass]
+pub struct Game {
+    #[pyo3(get)]
     title: String,
+    #[pyo3(get)]
     players: u8,
-    type: GameType,
+    #[pyo3(get)]
+    gametype: GameType,
 }
 
-enum GameType {
+//#[pyo3(get, set)]
+
+impl Default for Game {
+    fn default() -> Self {
+        Game { title: "Game".to_string(), players: 2, gametype: GameType::Normal}
+    }
+}
+
+#[pymethods]
+impl Game {
+    #[new]
+    fn new(title: String, players: u8, gametype: GameType) -> Self {
+        Game{ title, players, gametype }
+    }
+}
+
+#[pyclass]
+#[derive(Clone)]
+pub enum GameType {
     Normal,
     Extensive,
 }
 
-enum Utility {
+struct Utility {
     variable: Variable,
     numeral: i32,
 }
@@ -23,7 +49,7 @@ struct Decision {
     player: Player,
     name: String,
     utility: Utility, 
-    children: Decision,
+    children: Box<Decision>,
 }
 
 struct Player {
