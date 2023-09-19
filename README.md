@@ -1,3 +1,5 @@
+
+![stratpy logo](res/stratpy_logo.png "stratpy")
 ## Stratpy - A python module for Game Theory written in rust
 
 ### Motivation:
@@ -24,6 +26,6 @@ $ pip install stratpy
 ```python
 >>> import stratpy as sp
 >>> 
->>> game1 = Game()
+>>> game1 = sp.Game()
 
 ```
