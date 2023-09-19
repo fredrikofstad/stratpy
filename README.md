@@ -1,5 +1,9 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="res/stratpy-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="res/stratpy-light.png">
+  <img alt="starpy logo" src="res/stratpy-light.png">
+</picture>
 
-![stratpy logo](res/stratpy_logo.png "stratpy")
 ## Stratpy - A python module for Game Theory written in rust
 
 ### Motivation:
