@@ -1,8 +1,8 @@
 <p align="center">
     <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="res/stratpy-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="res/stratpy-light.png">
-    <img alt="starpy logo" src="res/stratpy-light.png">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/fredrikofstad/stratpy/blob/main/res/stratpy-dark.png?raw=true">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/fredrikofstad/stratpy/blob/main/res/stratpy-light.png?raw=true">
+    <img alt="stratpy logo" src="https://github.com/fredrikofstad/stratpy/blob/main/res/stratpy-light.png?raw=true">
     </picture>
 </p>
 
