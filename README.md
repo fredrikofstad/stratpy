@@ -16,7 +16,7 @@ the scientific community.
  Will upload as pip package in future
 
 ```bash
-$ python -m pip install stratpy
+$ pip install stratpy
 ```
 
 ### Usage

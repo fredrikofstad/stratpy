@@ -13,7 +13,8 @@ fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
 #[pymodule]
 fn stratpy(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Game>()?;
-    m.add_class::<GameType>()?;
+    m.add_class::<Type>()?;
+    m.add_class::<Variable>()?;
     m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     Ok(())
 }
