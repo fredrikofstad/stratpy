@@ -10,6 +10,11 @@ from stratpy import *
 
 #extenGame = Game(title="Game1", players=2,gametype=type.Normal, )
 
+game = Game("lol")
+
+print(game.players)
+print(game.title)
+print(game.gametype)
 
 
 a = Variable("A")

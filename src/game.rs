@@ -21,10 +21,10 @@ pub struct Game {
 #[pymethods]
 impl Game {
     #[new]
-    fn new(title: String, players: Option<u16>, gametype: Option<Type>) -> Self {
+    fn new(title: Option<String>, players: Option<u16>, gametype: Option<Type>) -> Self {
         Game{ 
             // TODO: Decide defaults
-            title,
+            title: title.unwrap_or("Untitled Game"),
             players: players.unwrap_or(2),
             gametype: gametype.unwrap_or(Type::Normal),
             root: None
