@@ -1,5 +1,4 @@
-from stratpy import Variable
-
+from stratpy import *
 #game = sp.Game("title", 2, type.Normal)
 #print("hi")
 

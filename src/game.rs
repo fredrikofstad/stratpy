@@ -9,24 +9,26 @@ pub struct Game {
     #[pyo3(get)]
     title: String,
     #[pyo3(get)]
-    players: u8,
+    players: u16,
     #[pyo3(get)]
     gametype: Type,
+    #[pyo3(get)]
+    root: Option<Decision>,
 }
 
 //#[pyo3(get, set)]
 
-impl Default for Game {
-    fn default() -> Self {
-        Game { title: "Game".to_string(), players: 2, gametype: Type::Normal}
-    }
-}
-
 #[pymethods]
 impl Game {
     #[new]
-    fn new(title: String, players: u8, gametype: Type) -> Self {
-        Game{ title, players, gametype }
+    fn new(title: String, players: Option<u16>, gametype: Option<Type>) -> Self {
+        Game{ 
+            // TODO: Decide defaults
+            title,
+            players: players.unwrap_or(2),
+            gametype: gametype.unwrap_or(Type::Normal),
+            root: None
+        }
     }
 }
 
@@ -42,14 +44,16 @@ struct Utility {
     numeral: i32,
 }
 
-// 
-
+// atomic usize for ids
 static VAR_ID: AtomicUsize = AtomicUsize::new(0);
+
+
+// Make utility seperate from variable struct?
 
 #[pyclass]
 #[derive(Clone)]
 pub struct Variable {
-    #[pyo3(get)]
+    #[pyo3(get)] // don't need getters in release
     name: String,
     #[pyo3(get)]
     id: usize,
@@ -59,10 +63,6 @@ pub struct Variable {
     higher: Vec<usize>,
     #[pyo3(get)]
     equal: Vec<usize>,
-    /*
-    value: Value,
-    id: u16,
-    */
 }
 
 #[pymethods]
@@ -80,6 +80,7 @@ impl Variable {
 
     fn __richcmp__(&mut self, other: &Self, op: CompareOp, py: Python) -> PyObject {
         match op {
+            // TODO: check for duplicates before pushing
             CompareOp::Lt => self.higher.push(other.id),
             CompareOp::Eq => self.equal.push(other.id),
             CompareOp::Gt => self.lower.push(other.id),
@@ -87,8 +88,7 @@ impl Variable {
         }
 
         other.clone().into_py(py)
-        // implement general function for adding to internal lists?
-        // make variables a part of Game??
+
     }
 
 }
@@ -96,21 +96,29 @@ impl Variable {
 //Because these types are references, in some situations 
 //the Rust compiler may ask for lifetime annotations. If this is the case, you should use Py<PyAny>
 
-
-
-struct Value {
-    numeral: u16,
-    variable: String,
-}
-
-struct Decision {
-    player: Player,
+#[pyclass]
+#[derive(Clone)]
+pub struct Decision {
+    player: Player, // make nature own struct?
     name: String,
-    utility: Utility, 
-    children: Box<Decision>,
+    children: Option<Box<Decision>>,
 }
 
-struct Player {
+#[pymethods]
+impl Decision {
+    #[new]
+    pub fn new(player: Player, name: String) -> Self {
+        Decision{
+            player, 
+            name, 
+            children: None,
+        }
+    }
+}
+
+#[pyclass]
+#[derive(Clone)]
+pub struct Player {
     name: String,
 }
 

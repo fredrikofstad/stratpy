@@ -6,7 +6,7 @@
     </picture>
 </p>
 
-## Stratpy - A python module for Game Theory written in rust
+## Stratpy - A python library for Game Theory written in rust
 
 ### Motivation:
 - Create an easy to use python package for game theory catering to alternate disciplines like polisci.
