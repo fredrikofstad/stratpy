@@ -81,6 +81,7 @@ impl Variable {
     fn __richcmp__(&mut self, other: &Self, op: CompareOp, py: Python) -> PyObject {
         match op {
             // TODO: check for duplicates before pushing
+            // TODO: add transitive feature if a > b and b > or == c then a > c!
             CompareOp::Lt => self.higher.push(other.id),
             CompareOp::Eq => self.equal.push(other.id),
             CompareOp::Gt => self.lower.push(other.id),
