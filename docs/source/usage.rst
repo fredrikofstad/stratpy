@@ -50,5 +50,5 @@ For example:
 >>> c = Variable("C")
 >>> a > b == c
 
-This results in players preferring a over b and c, and being indifferent to a and b.
+This results in players preferring a over b and c, and being indifferent to b and c.
 

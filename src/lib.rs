@@ -1,7 +1,11 @@
 use pyo3::prelude::*;
 use crate::game::*;
+use crate::node::{Decision, Player};
+use crate::utility::*;
 
 mod game;
+mod node;
+mod utility;
 
 /// Formats the sum of two numbers as string.
 #[pyfunction]
@@ -15,6 +19,8 @@ fn stratpy(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Game>()?;
     m.add_class::<Type>()?;
     m.add_class::<Variable>()?;
+    m.add_class::<Decision>()?;
+    m.add_class::<Player>()?;
     m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
     Ok(())
 }

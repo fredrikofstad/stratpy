@@ -1,42 +1,39 @@
 from stratpy import *
-#game = sp.Game("title", 2, type.Normal)
-#print("hi")
 
-#print(f"{game.title} {game.players} {game.gametype}")
+game = Game("Prisoner's Dilemma")
+
+# Create Players:
+player1 = Player("South Korea")
+player2 = Player("Japan")
+
+# create utility:
+a = Variable("A")
+b = Variable("B")
+c = Variable("C")
+a > b == c
 
 
-#nash_game = [[10,-10,], [5, 5],
-#             [0,0],     [15,18]]
+game + Decision(player1, "Commit")
 
-#extenGame = Game(title="Game1", players=2,gametype=type.Normal, )
-
-game = Game("lol")
+print(game.root.name)
 
 print(game.players)
 print(game.title)
 print(game.gametype)
 
-
-a = Variable("A")
-b = Variable("B")
-c = Variable("C")
-
-
-
 print(f"{a.name} : {a.id}")
 print(f"{b.name} : {b.id}")
 print(f"{c.name} : {c.id}")
 print("testing::")
-a > b == c 
+
+
+
 print(b.lower)
 print(b.equal)
 print(b.higher)
 
-
 # overload < > == to arrange variables
-
 
 # a > b == c > d
 
 # create a list with values over and values less
-
