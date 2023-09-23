@@ -21,8 +21,6 @@ the scientific community.
 
 ### Installation
 
- Will upload as pip package in future
-
 ```bash
 $ pip install stratpy
 ```
@@ -30,8 +28,8 @@ $ pip install stratpy
 ### Usage
 
 ```python
->>> import stratpy as sp
+>>> from stratpy import *
 >>> 
->>> game1 = sp.Game()
+>>> game1 = Game("Title")
 
 ```
