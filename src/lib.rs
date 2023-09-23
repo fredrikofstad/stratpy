@@ -1,6 +1,6 @@
 use pyo3::prelude::*;
 use crate::game::*;
-use crate::node::{Decision, Player};
+use crate::node::*;
 use crate::utility::*;
 
 mod game;

@@ -1,10 +1,11 @@
-from stratpy import Variable, Decision, Game, Player
-
+from stratpy import *
 game = Game("Prisoner's Dilemma")
+game2 = Game("Game 1", Type.Extensive)
 
 # Create Players:
 player1 = Player("South Korea")
 player2 = Player("Japan")
+player3 = Player(name="USA")
 
 # create utility:
 a = Variable("A")
@@ -21,19 +22,13 @@ dec6 = Decision(player1, "6")
 dec7 = Decision(player1, "7")
 
 (game
- + dec1 + dec2 + dec3 + (dec4 + dec5 + dec6)
- + dec7)
+ + (dec1 + dec5 + dec6)
+ + (dec2 + dec3 + dec4))
 
+print(game.root.children)
+print(dec1.children)
+print(dec2.children)
 
-print(dec4.children)
-
-for name in dec4.children:
-    print(name.name)
-
-print("-----")
-
-for name in game.root.children:
-    print(name.name)
 
 '''
 print(game.players)
