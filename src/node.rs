@@ -6,27 +6,28 @@ pub struct Decision {
     #[pyo3(get)] player: Player, // make nature own struct?
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
+    #[pyo3(get)] pub parent: Option<Py<Decision>>,
 }
 
 #[pymethods]
 impl Decision {
     #[new]
-    pub fn new(player: Player, name: String) -> Self {
-        Decision{
+    pub fn new(player: Player, name: String, py: Python) -> Py<Decision> {
+        Py::new(py, Decision{
             player,
             name,
             children: Vec::new(),
-        }
+            parent: None
+        }).unwrap()
     }
+
     pub fn get_ref(&self, py: Python) -> Py<Decision>{
         Py::new(py, self.clone()).unwrap()
     }
-    pub fn add_child(&mut self, decision: Decision, py: Python){
-        self.children.push(Py::new(py, decision).unwrap());
-    }
-    pub fn __add__(&mut self, other: &Decision, py: Python) -> Py<Decision> {
-        self.add_child(other.clone(), py);
-        self.get_ref(py)
+
+    fn __add__(slf: Py<Decision>, other: Py<Decision>, py: Python) -> Py<Decision> {
+        slf.borrow_mut(py).children.push(other.clone());
+        slf
     }
     pub fn __str__(&self) -> String {
         format!("(player: {} action: {})", self.player.name, self.name)

@@ -1,4 +1,4 @@
-from stratpy import *
+from stratpy import Variable, Decision, Game, Player
 
 game = Game("Prisoner's Dilemma")
 
@@ -20,9 +20,11 @@ dec5 = Decision(player1, "5")
 dec6 = Decision(player1, "6")
 dec7 = Decision(player1, "7")
 
-game + dec1 + dec2 + dec3 + (dec4 + dec5 + dec6) + dec7
+(game
+ + dec1 + dec2 + dec3 + (dec4 + dec5 + dec6)
+ + dec7)
 
-dec4 + dec6
+
 print(dec4.children)
 
 for name in dec4.children:

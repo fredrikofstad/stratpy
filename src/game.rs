@@ -28,14 +28,15 @@ impl Game {
             title: title.unwrap_or("Untitled Game".parse().unwrap()),
             players: Vec::new(),
             gametype: gametype.unwrap_or(Type::Normal),
-            root: Py::new(py,Decision::new(Player::new(None), String::from("root"))).unwrap(),
+            root: Decision::new(Player::new(None), String::from("root"), py),
         }
     }
+    //consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{
         Py::new(py, self.clone()).unwrap()
     }
-    fn __add__(&mut self, other: &Decision, py: Python) -> Py<Game> {
-        self.root.borrow_mut(py).add_child(other.clone(), py);
+    fn __add__(&mut self, other: Py<Decision>, py: Python) -> Py<Game> {
+        self.root.borrow_mut(py).children.push(other.clone());
         self.get_ref(py)
     }
     fn __str__(&self, py: Python) -> String {
