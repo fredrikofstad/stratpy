@@ -1,7 +1,4 @@
-use std::fmt;
-use std::fmt::format;
 use pyo3::{prelude::*};
-use pyo3::types::PyString;
 use crate::node::*;
 
 #[pyclass]
@@ -10,35 +7,42 @@ pub struct Game {
     #[pyo3(get)]
     title: String,
     #[pyo3 (get)]
-    players: Vec<Player>,
+    player: Vec<Player>,
     #[pyo3(get)]
     gametype: Type,
     #[pyo3(get)]
     root: Py<Decision>,
 }
 
-//#[pyo3(get, set)]
-
 #[pymethods]
 impl Game {
     #[new]
-    fn new(title: Option<String>, gametype: Option<Type>, py:Python) -> Self {
+    // currently all fields are optional and will create sensible defaults.
+    // TODO: infer gametype based on input.
+    // TODO: overload new function with support for matrix input
+    fn new(title: Option<String>, player_num: Option<usize>, gametype: Option<Type>,  py:Python) -> Self {
         Game{
-            // TODO: make function that automakes players
             title: title.unwrap_or("Untitled Game".parse().unwrap()),
-            players: Vec::new(),
             gametype: gametype.unwrap_or(Type::Normal),
+            player: create_players(player_num.unwrap_or(2)),
             root: Decision::new(Player::new(None), String::from("root"), py),
         }
     }
-    //consider removing the abstraction
+
+    // TODO: consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{
         Py::new(py, self.clone()).unwrap()
     }
+    // overloads + to be used to for adding nodes to game.
+    // returns a python reference to game in order to continue adding
+    // nodes successively. The reference to root is borrowed temporarily
+    // as a mutable in order to push nodes to children.
     fn __add__(&mut self, other: Py<Decision>, py: Python) -> Py<Game> {
         self.root.borrow_mut(py).children.push(other.clone());
         self.get_ref(py)
     }
+    // python's toString method
+    // currently returns a string representation of game, and root's children
     fn __str__(&self, py: Python) -> String {
         let mut str = format!("title: {} root: {} children: ", self.title, self.root.borrow_mut(py).name);
         let children = self.root.borrow_mut(py).children.clone();
@@ -47,11 +51,22 @@ impl Game {
         }
         str
     }
+    // The length of root's children used during testing.
     pub fn length(&self, py: Python) -> usize {
         self.root.borrow_mut(py).children.len()
     }
 }
 
+// Creates a vector of playes, where the 0th element is reserved for nature
+pub fn create_players(player_num: usize) -> Vec<Player>{
+    let mut players: Vec<Player> = Vec::new();
+    players.push(Player::new(Option::from("Nature".to_string())));
+    for _ in 0..player_num {players.push(Player::new(None))}
+    players
+}
+
+// Consider: This might not have to be exposed to the user
+// but can be inferred and methods can be adjusted accordingly
 #[pyclass]
 #[derive(Clone)]
 pub enum Type {

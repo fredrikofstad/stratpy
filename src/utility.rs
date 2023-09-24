@@ -2,20 +2,20 @@ use pyo3::{prelude::*};
 use pyo3::class::basic::CompareOp;
 use std::{sync::atomic::{AtomicUsize, Ordering}};
 
-struct Utility {
-    variable: Variable,
-    numeral: i32,
+#[derive(FromPyObject)]
+#[derive(Clone)]
+pub enum Utility {
+    Variable(Variable),
+    Numeral(usize)
 }
 
 // atomic usize for ids
+// consider pushing references to the variables themselves
 static VAR_ID: AtomicUsize = AtomicUsize::new(0);
-
-
-// Make utility seperate from variable struct?
 
 #[pyclass]
 #[derive(Clone)]
-pub struct Variable { // don't need getters in release
+pub struct Variable {
     #[pyo3(get)] name: String,
     #[pyo3(get)] id: usize,
     #[pyo3(get)] lower: Vec<usize>,
@@ -26,6 +26,9 @@ pub struct Variable { // don't need getters in release
 #[pymethods]
 impl Variable {
     #[new]
+    // TODO: variables should also be pyrefs
+    // Variable preferences are stored in vec, and are used when comparing
+    // preferences during backwards induction.
     pub fn new(name: String) -> Self {
         Variable{
             name,
@@ -36,6 +39,9 @@ impl Variable {
         }
     }
 
+    // overloads python's comparison operators in order to let the user
+    // define preferences. a > b when a is preffered over b, and == when the
+    // player is indifferent to the two outcomes.
     fn __richcmp__(&mut self, other: &Self, op: CompareOp, py: Python) -> PyObject {
         match op {
             // TODO: check for duplicates before pushing
@@ -51,6 +57,3 @@ impl Variable {
     }
 
 }
-
-//Because these types are references, in some situations
-//the Rust compiler may ask for lifetime annotations. If this is the case, you should use Py<PyAny>

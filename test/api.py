@@ -1,11 +1,9 @@
 from stratpy import *
-game = Game("Prisoner's Dilemma")
-game2 = Game("Game 1", Type.Extensive)
-
-# Create Players:
-player1 = Player("South Korea")
-player2 = Player("Japan")
-player3 = Player(name="USA")
+game = Game("Prisoner's Dilemma", 2)
+p1 = game.player[1]
+p2 = game.player[2]
+p1.name = "South Korea"
+p2.name = "Japan"
 
 # create utility:
 a = Variable("A")
@@ -13,20 +11,20 @@ b = Variable("B")
 c = Variable("C")
 a > b == c
 
-dec1 = Decision(player1, "1")
-dec2 = Decision(player1, "2")
-dec3 = Decision(player1, "3")
-dec4 = Decision(player1, "4")
-dec5 = Decision(player1, "5")
-dec6 = Decision(player1, "6")
-dec7 = Decision(player1, "7")
+dec1 = Decision(p1, "Commit")
+dec2 = Decision(p1, "Do Nothing")
+dec3 = Decision(p2, "Commit")
+dec4 = Decision(p2, "Do nothing")
+dec5 = Decision(p1, "Retaliate")
+dec6 = Decision(p1, "Cooperate")
+dec7 = Decision(p2, "Run away")
 
 (game
- + (dec1 + dec5 + dec6)
- + (dec2 + dec3 + dec4))
+ + (dec1 + dec5 + dec6))
 
-print(game.root.children)
-print(dec1.children)
+dec2.add_nodes(dec1, dec2, dec3)
+
+print(dec2)
 print(dec2.children)
 
 
