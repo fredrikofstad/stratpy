@@ -29,17 +29,14 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = "sphinxawesome_theme"
+html_theme = "groundwork"
 html_static_path = ['_static']
-html_css_files = [
-    'css/custom.css',
-]
+html_style = 'groundwork.css_t'
+html_logo = "light.png"
 html_theme_options = {
-    "logo_light": "light.png",
-    "logo_dark": "dark.png",
     'logo_only': True,
     'display_version': False,
-
+    "contribute": True,
 }
 
 # -- Options for EPUB output

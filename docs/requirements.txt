@@ -1,2 +1,2 @@
 sphinx
-sphinxawesome-theme==5.0.0b5
+groundwork-sphinx-theme
