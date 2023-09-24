@@ -30,7 +30,7 @@ templates_path = ['_templates']
 # -- Options for HTML output
 
 html_theme = "groundwork"
-html_theme_path = ["theme/"]
+html_theme_path = ["."]
 html_logo = "light.png"
 html_theme_options = {
     'logo_only': True,
