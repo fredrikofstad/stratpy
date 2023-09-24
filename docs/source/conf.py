@@ -29,9 +29,9 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = "furo"
-html_title = ""
 html_static_path = ["_static"]
+html_theme = "furo"
+html_title = "docs"
 html_theme_options = {
     "light_logo": "light.png",
     "dark_logo": "dark.png",
