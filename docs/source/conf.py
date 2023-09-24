@@ -30,12 +30,12 @@ templates_path = ['_templates']
 # -- Options for HTML output
 
 html_static_path = ["_static"]
-html_logo = "dark.png"
+html_logo = "light.png"
 html_theme = "furo"
-html_title = "docs"
 html_theme_options = {
     "light_logo": "light.png",
     "dark_logo": "dark.png",
+    "sidebar_hide_name": True,
 }
 
 # -- Options for EPUB output
