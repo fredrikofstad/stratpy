@@ -29,12 +29,12 @@ templates_path = ['_templates']
 
 # -- Options for HTML output
 
-html_theme = "groundwork"
-html_logo = "dark.png"
+html_theme = "furo"
 html_theme_options = {
+    "light_logo": "light.png",
+    "dark_logo": "dark.png",
     'logo_only': True,
     'display_version': False,
-    "contribute": True,
 }
 
 # -- Options for EPUB output
