@@ -31,9 +31,15 @@ templates_path = ['_templates']
 
 html_theme = "sphinxawesome_theme"
 html_static_path = ['_static']
+html_css_files = [
+    'css/custom.css',
+]
 html_theme_options = {
     "logo_light": "light.png",
-    "logo_dark": "dark.png"
+    "logo_dark": "dark.png",
+    'logo_only': True,
+    'display_version': False,
+
 }
 
 # -- Options for EPUB output

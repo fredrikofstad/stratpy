@@ -33,7 +33,7 @@ Example:
 
 
 Players
-----------------
+-------
 | When the game is created the amount of players specified (default 2) are created as a vector in the game object.
 | You can access these players with ``my_game.player[1]``
 
@@ -42,9 +42,6 @@ Players
 | Player 2 is:      ``my_game.player[2]``
 
 these references can also be store in variables for convenience:
-
-| p1.name = "South Korea"
-| p2.name = "Japan"
 
 >>> nature = game.player[0]
 >>> p1 = game.player[1]
@@ -57,7 +54,7 @@ Further names can be set using the names field:
 
 
 Decision Nodes
-----------------
+---------------
 Decision nodes are created with the Decision(player, name) constructor:
 
 .. autofunction:: statpy.Decision(player, name)
@@ -72,7 +69,7 @@ Example:
 >>> d2 = Decision(game.player[2], "Renege")
 
 Variables
-----------------
+---------
 
 .. autofunction:: statpy.Variable()
 To create variables to be used for the players utility, use the ``Variable()`` constructor.
