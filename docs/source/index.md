@@ -15,6 +15,7 @@ A python library for Game Theory written in rust.
 ```
 
 ```{toctree}
+:caption: Library
 :hidden:
 
 quickstart

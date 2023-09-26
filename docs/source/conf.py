@@ -29,6 +29,12 @@ intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+]
+myst_heading_anchors = 3
+
 # -- Options for HTML output
 
 html_static_path = ["_static"]
