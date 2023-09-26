@@ -9,7 +9,7 @@ A python library for Game Theory written in rust.
 ```{note} This project is under active development.
 ```
 
-```{include} ../README.md
+```{include} ../../README.md
 :start-after: <!-- start info -->
 :end-before: <!-- end info -->
 ```
