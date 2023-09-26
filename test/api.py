@@ -27,6 +27,8 @@ dec2.add_nodes(dec1, dec2, dec3)
 print(dec2)
 print(dec2.children)
 
+print(game.export())
+
 
 '''
 print(game.players)

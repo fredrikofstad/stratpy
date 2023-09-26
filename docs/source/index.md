@@ -20,6 +20,7 @@ A python library for Game Theory written in rust.
 
 quickstart
 Usage/index
+Exporting/index
 ```
 
 ```{toctree}

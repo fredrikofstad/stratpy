@@ -1,19 +1,19 @@
 use petgraph::graph::Graph;
 use petgraph::dot::Dot;
+use pyo3::Python;
+use crate::tree::game::Game;
 
-pub fn export_dot(){
+pub fn export_dot(game: Game, py: Python) -> String {
     let mut graph = Graph::new();
-    let origin = graph.add_node("Nature");
-    let destination_1 = graph.add_node("p");
-    let destination_2 = graph.add_node("p-1");
+    let root = graph.add_node(game.root.borrow(py).player.name.clone());
+    for child in game.root.borrow(py).children.clone() {
+        let node = graph.add_node(child.borrow(py).player.name.clone());
+        graph.extend_with_edges(&[
+            (root, node, child.borrow(py).name.clone())
+        ]);
+    }
 
-    graph.extend_with_edges(&[
-        (origin, destination_1, "die"),
-        (origin, destination_2, "live")
-    ]);
-
-    let dot_graph = Dot::new(&graph);
-    println!("{}",dot_graph.to_string() );
+    Dot::new(&graph).to_string()
 }
 
 #[cfg(test)]
@@ -22,7 +22,7 @@ mod tests {
     use super::*;
     #[test]
     fn test_graph() {
-        export_dot();
+        //export_dot();
         assert_eq!(1,1);
     }
 

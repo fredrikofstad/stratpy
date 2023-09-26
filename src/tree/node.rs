@@ -5,7 +5,7 @@ use crate::tree::utility::*;
 #[pyclass]
 #[derive(Clone)]
 pub struct Decision {
-    #[pyo3(get)] player: Player, // make nature own struct?
+    #[pyo3(get)] pub player: Player, // make nature own struct?
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
     //#[pyo3(get)] pub utility: Option<Utility>,
@@ -54,7 +54,7 @@ impl Decision {
 #[pyclass]
 #[derive(Clone)]
 pub struct Player {
-    #[pyo3(get, set)] name: String,
+    #[pyo3(get, set)] pub name: String,
 }
 
 

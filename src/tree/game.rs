@@ -1,4 +1,5 @@
 use pyo3::{prelude::*};
+use crate::export::dot;
 use crate::tree::node::*;
 
 #[pyclass]
@@ -11,7 +12,7 @@ pub struct Game {
     #[pyo3(get)]
     gametype: Type,
     #[pyo3(get)]
-    root: Py<Decision>,
+    pub root: Py<Decision>,
 }
 
 #[pymethods]
@@ -28,7 +29,9 @@ impl Game {
             root: Decision::new(Player::new(None), String::from("root"), py),
         }
     }
-
+    pub fn export(&self, py: Python) -> String {
+        dot::export_dot(self.clone(), py)
+    }
     // TODO: consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{
         Py::new(py, self.clone()).unwrap()
