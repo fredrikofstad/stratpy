@@ -1,5 +1,5 @@
 use pyo3::{prelude::*};
-use crate::node::*;
+use crate::tree::node::*;
 
 #[pyclass]
 #[derive(Clone)]

@@ -1,6 +1,6 @@
 use pyo3::{prelude::*};
 use pyo3::types::PyTuple;
-use crate::utility::*;
+use crate::tree::utility::*;
 
 #[pyclass]
 #[derive(Clone)]

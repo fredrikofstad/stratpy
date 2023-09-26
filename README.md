@@ -10,6 +10,7 @@
 
 Read the documentation [here!](https://stratpy-docs.readthedocs.io/en/latest/)
 
+<!-- start info -->
 ### Motivation:
 - Create an easy to use python package for game theory catering to alternate disciplines like polisci.
 - Backend created in rust offering a modern fast and memory-safe language, while python allows for an easy api for 
@@ -20,7 +21,9 @@ the scientific community.
 - Normal form and Extensive form games (including incomplete information)
 - Solve games using user-ordered preferences (unknown but orderable variables)
 - Easily export games to latex and other formats
+<!-- end info -->
 
+<!-- start quickstart -->
 ### Installation
 
 ```bash
@@ -35,4 +38,5 @@ $ pip install stratpy
 >>> game1 = Game("Title")
 
 ```
-For information about all classes and methods check out the documentation [here!](https://stratpy-docs.readthedocs.io/en/latest/)
+<!-- end quickstart -->
+Read more about how to use the library [here!](https://stratpy-docs.readthedocs.io/en/latest/)

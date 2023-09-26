@@ -1,11 +1,9 @@
 use pyo3::prelude::*;
-use crate::game::*;
-use crate::node::*;
-use crate::utility::*;
-
-mod game;
-mod node;
-mod utility;
+use crate::tree::game::*;
+use crate::tree::node::*;
+use crate::tree::utility::*;
+pub mod tree;
+pub mod export;
 
 /// Packing all rust structs and functions into the stratpy module.
 #[pymodule]
