@@ -22,10 +22,10 @@ dec7 = Decision(p2, "Run away")
 (game
  + (dec1 + dec5 + dec6))
 
-dec2.add_nodes(dec1, dec2, dec3)
+dec2.add_nodes(dec3, dec4)
 
-print(dec2)
-print(dec2.children)
+game + dec2
+
 
 print(game.export())
 
