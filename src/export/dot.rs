@@ -4,8 +4,11 @@ use pyo3::{Py, Python};
 use crate::tree::game::Game;
 use crate::tree::node::Decision;
 
-pub fn export_dot(game: Game, py: Python) -> String {
+pub fn export_dot(mut game: Game, py: Python) -> String {
     let mut graph = Graph::new();
+    let mut new_root = game.root.borrow(py).clone();
+    new_root.player.name = new_root.children[0].borrow(py).clone().player.name.clone();
+    game.root = Py::new(py, new_root).unwrap();
     add_nodes_to_graph(game.root.clone(), &mut graph, py);
     Dot::new(&graph).to_string()
 }
@@ -16,7 +19,7 @@ fn add_nodes_to_graph(decision: Py<Decision>, graph: &mut Graph<String, String>,
     let index = if node.children.is_empty() {
         graph.add_node(format!("({}, {})", node.utility[0], node.utility[1]))
     } else {
-        graph.add_node(node.player.name.clone())
+        graph.add_node(node.children[0].borrow(py).clone().player.name.clone())
     };
     for child in node.children {
         let (node_index, name) = add_nodes_to_graph(child, graph, py);

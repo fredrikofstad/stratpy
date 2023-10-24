@@ -1,4 +1,5 @@
 use pyo3::{prelude::*};
+use crate::export::dot;
 use crate::tree::node::*;
 
 #[pyclass]
@@ -7,7 +8,7 @@ pub struct Game {
     #[pyo3(get)]
     title: String,
     #[pyo3 (get)]
-    player: Vec<Player>,
+    pub player: Vec<Player>,
     #[pyo3(get)]
     gametype: Type,
     #[pyo3(get)]
@@ -59,7 +60,7 @@ impl Game {
     }
 }
 
-// Creates a vector of playes, where the 0th element is reserved for nature
+// Creates a vector of players, where the 0th element is reserved for nature
 pub fn create_players(player_num: usize) -> Vec<Player>{
     let mut players: Vec<Player> = Vec::new();
     players.push(Player::new(Option::from("Nature".to_string())));

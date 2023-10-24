@@ -1,4 +1,5 @@
 use pyo3::{prelude::*};
+use pyo3::types::PyTuple;
 
 #[pyclass]
 #[derive(Clone)]
@@ -61,6 +62,6 @@ pub struct Player {
 impl Player {
     #[new]
     pub fn new(name: Option<String>) -> Self {
-        Player{ name: name.unwrap_or("root".to_string()), }
+        Player{ name: name.unwrap_or("player".to_string()), }
     }
 }
