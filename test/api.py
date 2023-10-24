@@ -12,12 +12,12 @@ c = Variable("C")
 a > b == c
 
 dec1 = Decision(p1, "Commit")
-dec2 = Decision(p1, "Do Nothing")
+dec2 = Decision(p1, "Do Nothing", utility=(10, 10))
 dec3 = Decision(p2, "Commit")
 dec4 = Decision(p2, "Do nothing")
-dec5 = Decision(p1, "Retaliate")
-dec6 = Decision(p1, "Cooperate")
-dec7 = Decision(p2, "Run away")
+dec5 = Decision(p1, "Retaliate", utility=(1, 1))
+dec6 = Decision(p1, "Cooperate", utility=(-1, 100))
+dec7 = Decision(p2, "Run away", utility=(4, 2))
 
 (game
  + (dec1 + dec5 + dec6))
@@ -25,6 +25,8 @@ dec7 = Decision(p2, "Run away")
 dec2.add_nodes(dec3, dec4)
 
 game + dec2
+
+dec3 + dec7 + Decision(p2, "Stay", utility=(7, 9))
 
 
 print(game.export())

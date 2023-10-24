@@ -1,5 +1,4 @@
 use pyo3::{prelude::*};
-use crate::export::dot;
 use crate::tree::node::*;
 
 #[pyclass]
@@ -26,7 +25,7 @@ impl Game {
             title: title.unwrap_or("Untitled Game".parse().unwrap()),
             gametype: gametype.unwrap_or(Type::Normal),
             player: create_players(player_num.unwrap_or(2)),
-            root: Decision::new(Player::new(None), String::from("root"), py),
+            root: Decision::new(Player::new(None), String::from("root"), None, py),
         }
     }
     pub fn export(&self, py: Python) -> String {
