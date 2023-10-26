@@ -1,3 +1,5 @@
+#![allow(dead_code)] // suppresses unused vars and func warning: functions are called by python.
+//#![allow(unused_variables)]
 use pyo3::prelude::*;
 use crate::tree::game::*;
 use crate::tree::node::*;

@@ -1,5 +1,9 @@
 use pyo3::{prelude::*};
 use pyo3::types::PyTuple;
+use std::{sync::atomic::{AtomicUsize, Ordering}};
+
+// unique id, given for internal identification when exporting
+static VAR_ID: AtomicUsize = AtomicUsize::new(0);
 
 #[pyclass]
 #[derive(Clone)]
@@ -7,19 +11,24 @@ pub struct Decision {
     #[pyo3(get)] pub player: Player, // make nature own struct?
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
-    #[pyo3(get, set)] pub utility: Vec<i32>,
+    #[pyo3(get)] pub information_set: Option<usize>,
+    #[pyo3(get, set)] pub utility: Option<Vec<i32>>,
+    pub id: usize,
 }
 
 
 #[pymethods]
 impl Decision {
     #[new]
-    pub fn new(player: Player, name: String, utility: Option<Vec<i32>>, py: Python) -> Py<Decision> {
+    pub fn new(player: Player, name: String, utility: Option<Vec<i32>>,
+               information_set: Option<usize>, py: Python) -> Py<Decision> {
         Py::new(py, Decision{
             player,
             name,
             children: Vec::new(),
-            utility: utility.unwrap_or(vec![0, 0])
+            utility,
+            information_set,
+            id: VAR_ID.fetch_add(1, Ordering::SeqCst),
         }).unwrap()
     }
     pub fn add_node(slf: Py<Decision>, other: Py<Decision>, py: Python) -> Py<Decision>{

@@ -16,11 +16,15 @@ pub fn export_dot(mut game: Game, py: Python) -> String {
 fn add_nodes_to_graph(decision: Py<Decision>, graph: &mut Graph<String, String>, py: Python) -> (NodeIndex, String) {
     // add nodes and edges
     let node = decision.borrow(py).clone();
-    let index = if node.children.is_empty() {
-        graph.add_node(format!("({}, {})", node.utility[0], node.utility[1]))
-    } else {
-        graph.add_node(node.children[0].borrow(py).clone().player.name.clone())
+
+    let index = match node.utility {
+        Some(x) => {
+            let utility = format!("({}, {})", x[0], x[1]);
+            graph.add_node(format!("label=below:{{${utility})$}}"))
+        },
+        None => graph.add_node(node.children[0].borrow(py).clone().player.name.clone())
     };
+
     for child in node.children {
         let (node_index, name) = add_nodes_to_graph(child, graph, py);
         graph.extend_with_edges(&[
@@ -30,14 +34,24 @@ fn add_nodes_to_graph(decision: Py<Decision>, graph: &mut Graph<String, String>,
     (index, node.name.clone())
 }
 
+// do this for both information sets and string!
+fn test_string(){
+    let mut owned_string: String = "hello ".to_owned();
+    push_string(&mut owned_string);
+    println!("{owned_string}");
+}
+fn push_string(test: &mut String){
+    test.push_str("World!")
+}
+
 #[cfg(test)]
 mod tests {
+    use crate::export::dot::test_string;
+
     // importing names from outer scope.
-    use super::*;
     #[test]
     fn test_graph() {
-        //export_dot();
-        assert_eq!(1,1);
+        test_string();
     }
 
 }

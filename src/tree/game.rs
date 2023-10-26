@@ -1,5 +1,6 @@
 use pyo3::{prelude::*};
 use crate::export::dot;
+use crate::export::latex;
 use crate::tree::node::*;
 
 #[pyclass]
@@ -26,12 +27,17 @@ impl Game {
             title: title.unwrap_or("Untitled Game".parse().unwrap()),
             gametype: gametype.unwrap_or(Type::Normal),
             player: create_players(player_num.unwrap_or(2)),
-            root: Decision::new(Player::new(None), String::from("root"), None, py),
+            root: Decision::new(Player::new(None), String::from("root"),
+                                None, None, py),
         }
     }
     pub fn export(&self, py: Python) -> String {
         dot::export_dot(self.clone(), py)
     }
+    pub fn export_latex(&self, py: Python) -> String {
+        latex::latex_writer(self.clone(), 2.5, py)
+    }
+
     // TODO: consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{
         Py::new(py, self.clone()).unwrap()
@@ -64,7 +70,7 @@ impl Game {
 pub fn create_players(player_num: usize) -> Vec<Player>{
     let mut players: Vec<Player> = Vec::new();
     players.push(Player::new(Option::from("Nature".to_string())));
-    for _ in 0..player_num {players.push(Player::new(None))}
+    for i in 0..player_num {players.push(Player::new(format!("Player {}", i+1).into()))}
     players
 }
 
