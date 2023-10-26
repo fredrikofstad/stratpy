@@ -1,3 +1,4 @@
+use std::io::Error;
 use pyo3::{prelude::*};
 use crate::export::dot;
 use crate::export::latex;
@@ -34,9 +35,18 @@ impl Game {
     pub fn export(&self, py: Python) -> String {
         dot::export_dot(self.clone(), py)
     }
-    pub fn export_latex(&self, py: Python) -> String {
-        latex::latex_writer(self.clone(), 2.5, py)
+    pub fn export_latex(&self, scale: Option<f32>, filename: Option<&str>, py: Python) -> Result<(), Error>{
+        let scale = scale.unwrap_or(2.5);
+        match filename {
+            None => {
+                latex::generate_latex(self.clone(), scale, py);
+                Ok(())
+            },
+            Some(filename) => latex::write_to_file(self.clone(), scale, filename, py),
+        }.expect("Error");
+        Ok(())
     }
+
 
     // TODO: consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{

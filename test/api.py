@@ -1,4 +1,5 @@
 from stratpy import *
+
 game = Game("Prisoner's Dilemma", 2)
 p1 = game.player[1]
 p2 = game.player[2]
@@ -30,7 +31,7 @@ game + dec2
 dec3 + dec7 + Decision(p1, "Stay", utility=(7, 9))
 
 
-print(game.export_latex())
+print(game.export_latex(2.5, "output/fig1.tex"))
 
 
 '''
