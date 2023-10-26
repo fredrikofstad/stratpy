@@ -2,11 +2,11 @@ use pyo3::{prelude::*};
 use pyo3::class::basic::CompareOp;
 use std::{sync::atomic::{AtomicUsize, Ordering}};
 
-#[derive(FromPyObject)]
 #[derive(Clone)]
 pub enum Utility {
-    Variable(Variable),
-    Numeral(usize)
+    Variable(Vec<Variable>),
+    Numeral(Vec<i32>),
+    None,
 }
 
 // atomic usize for ids
@@ -16,11 +16,11 @@ static VAR_ID: AtomicUsize = AtomicUsize::new(0);
 #[pyclass]
 #[derive(Clone)]
 pub struct Variable {
-    #[pyo3(get)] name: String,
-    #[pyo3(get)] id: usize,
-    #[pyo3(get)] lower: Vec<usize>,
-    #[pyo3(get)] higher: Vec<usize>,
-    #[pyo3(get)] equal: Vec<usize>,
+    #[pyo3(get)] pub name: String,
+    #[pyo3(get)] pub id: usize,
+    #[pyo3(get)] pub lower: Vec<usize>,
+    #[pyo3(get)] pub higher: Vec<usize>,
+    #[pyo3(get)] pub equal: Vec<usize>,
 }
 
 #[pymethods]

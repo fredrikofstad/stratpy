@@ -3,6 +3,8 @@ use std::io::{Error, Write};
 use pyo3::{Python};
 use crate::tree::game::Game;
 use crate::tree::node::Decision;
+use crate::tree::utility::Utility;
+use crate::tree::utility::Utility::Numeral;
 
 pub fn write_to_file(game: Game, scale: f32, file_path: &str, py: Python)
     -> Result<(), Error> {
@@ -58,11 +60,15 @@ fn traverse_tree(node: Decision, i:usize, information_set: &mut Vec<Vec<(usize, 
     let dir = if i == 0 {"left"} else {"right"};
     let (node_id, edge_label) = (node.id, node.name);
     let (node_type, label) = match node.utility {
-        Some(x) => {
+        Numeral(x) => {
             let utility = format!("({}, {})", x[0], x[1]);
             ("hollow", format!("label=below:{{${utility}$}}"))
         },
-        None => {
+        Utility::Variable(x) => {
+            let utility = format!("({}, {})", x[0].name, x[1].name);
+            ("hollow", format!("label=below:{{${utility}$}}"))
+        }
+        Utility::None => {
             let player_name = node.children[0].borrow(py).player.name.clone();
             ("solid", format!("label=above {dir}:{{{player_name}}}"))
         }
@@ -94,7 +100,7 @@ fn add_information_set() -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    //use super::*;
     #[test]
     fn test_latex_string() {
         //println!("{}", latex_writer())

@@ -4,12 +4,20 @@ class Game:
     """
     The main class representing the game model.
     """
-    def __new__(cls, title: str, player_number: int, gametype: Type) -> Variable: ...
+    def __new__(cls, title: str, player_number: int) -> Variable: ...
     """
     :param title: optional title of the game, used when displaying the game
     :param player_number: the amount of players in the game (default: 2)
     :param gametype: optional parameter for the type of game. Either Type.Normal or Type.Extensive
     """
+    def export_latex(self, scale: float, file_path: str):
+        """
+        :param scale: optional scale of the exported figure (default: 2.5)
+        :param file_path: If a filepath is specified the game will be exported to that file,
+        otherwise the latex will be printed in the terminal
+        """
+    player: Player
+
 
 class Decision:
     """

@@ -16,7 +16,7 @@ a > b == c
 dec1 = Decision(p1, "Commit")
 dec2 = Decision(p1, "Do Nothing")
 dec3 = Decision(p2, "Commit")
-dec4 = Decision(p2, "Do nothing", utility=(9, 9))
+dec4 = Decision(p2, "Do nothing", variable=(a, b))
 dec5 = Decision(p2, "Retaliate", utility=(1, 1))
 dec6 = Decision(p2, "Cooperate", utility=(-1, 100))
 dec7 = Decision(p1, "Run away", utility=(4, 2))

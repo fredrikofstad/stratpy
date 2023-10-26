@@ -1,6 +1,7 @@
 use pyo3::{prelude::*};
 use pyo3::types::PyTuple;
 use std::{sync::atomic::{AtomicUsize, Ordering}};
+use crate::tree::utility::*;
 
 // unique id, given for internal identification when exporting
 static VAR_ID: AtomicUsize = AtomicUsize::new(0);
@@ -12,21 +13,29 @@ pub struct Decision {
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
     #[pyo3(get)] pub information_set: Option<usize>,
-    #[pyo3(get, set)] pub utility: Option<Vec<i32>>,
+    pub utility: Utility,
     pub id: usize,
 }
-
 
 #[pymethods]
 impl Decision {
     #[new]
-    pub fn new(player: Player, name: String, utility: Option<Vec<i32>>,
+    pub fn new(player: Player, name: String, utility: Option<Vec<i32>>, variable: Option<Vec<Variable>>,
                information_set: Option<usize>, py: Python) -> Py<Decision> {
         Py::new(py, Decision{
             player,
             name,
             children: Vec::new(),
-            utility,
+            utility:
+            if let Some(value) = utility {
+                Utility::Numeral(value)
+            } else {
+                if let Some(value) = variable {
+                    Utility::Variable(value)
+                } else {
+                    Utility::None
+                }
+            },
             information_set,
             id: VAR_ID.fetch_add(1, Ordering::SeqCst),
         }).unwrap()
@@ -74,3 +83,4 @@ impl Player {
         Player{ name: name.unwrap_or("player".to_string()), }
     }
 }
+

@@ -29,7 +29,7 @@ impl Game {
             gametype: gametype.unwrap_or(Type::Normal),
             player: create_players(player_num.unwrap_or(2)),
             root: Decision::new(Player::new(None), String::from("root"),
-                                None, None, py),
+                                None, None, None, py),
         }
     }
     pub fn export(&self, py: Python) -> String {

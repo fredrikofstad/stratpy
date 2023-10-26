@@ -3,6 +3,7 @@ use petgraph::dot::Dot;
 use pyo3::{Py, Python};
 use crate::tree::game::Game;
 use crate::tree::node::Decision;
+use crate::tree::utility::Utility::Numeral;
 
 pub fn export_dot(mut game: Game, py: Python) -> String {
     let mut graph = Graph::new();
@@ -18,11 +19,11 @@ fn add_nodes_to_graph(decision: Py<Decision>, graph: &mut Graph<String, String>,
     let node = decision.borrow(py).clone();
 
     let index = match node.utility {
-        Some(x) => {
+        Numeral(x) => {
             let utility = format!("({}, {})", x[0], x[1]);
             graph.add_node(format!("label=below:{{${utility})$}}"))
         },
-        None => graph.add_node(node.children[0].borrow(py).clone().player.name.clone())
+        _ => graph.add_node(node.children[0].borrow(py).clone().player.name.clone())
     };
 
     for child in node.children {
