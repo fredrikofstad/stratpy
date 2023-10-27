@@ -13,8 +13,10 @@ b = Variable("B")
 c = Variable("C")
 a > b == c
 
-dec1 = Decision(p1, "Commit")
-dec2 = Decision(p1, "Do Nothing")
+info_set = 1
+
+dec1 = Decision(p1, "Commit", information_set=info_set)
+dec2 = Decision(p1, "Do Nothing", information_set=info_set)
 dec3 = Decision(p2, "Commit")
 dec4 = Decision(p2, "Do nothing", variable=(a, b))
 dec5 = Decision(p2, "Retaliate", utility=(1, 1))
@@ -31,7 +33,7 @@ game + dec2
 dec3 + dec7 + Decision(p1, "Stay", utility=(7, 9))
 
 
-print(game.export_latex(2.5, "output/fig1.tex"))
+game.export_latex(2.5, "output/fig1.tex")
 
 
 '''

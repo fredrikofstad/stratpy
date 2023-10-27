@@ -4,7 +4,7 @@ class Game:
     """
     The main class representing the game model.
     """
-    def __new__(cls, title: str, player_number: int) -> Variable: ...
+    def __new__(cls, title: str, player_num: int) -> Variable: ...
     """
     :param title: optional title of the game, used when displaying the game
     :param player_number: the amount of players in the game (default: 2)
