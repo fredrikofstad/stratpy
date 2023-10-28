@@ -1,6 +1,6 @@
 from stratpy import *
 
-game = Game("Prisoner's Dilemma", 2)
+game = Game("Prisoner's Dilemma", player_num=2)
 p1 = game.player[1]
 p2 = game.player[2]
 

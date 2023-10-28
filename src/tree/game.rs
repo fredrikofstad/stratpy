@@ -23,11 +23,11 @@ impl Game {
     // currently all fields are optional and will create sensible defaults.
     // TODO: infer gametype based on input.
     // TODO: overload new function with support for matrix input
-    fn new(title: Option<String>, player_num: Option<usize>, gametype: Option<Type>,  py:Python) -> Self {
+    fn new(title: Option<String>, players: Option<usize>, gametype: Option<Type>,  py:Python) -> Self {
         Game{
             title: title.unwrap_or("Untitled Game".parse().unwrap()),
             gametype: gametype.unwrap_or(Type::Normal),
-            player: create_players(player_num.unwrap_or(2)),
+            player: create_players(players.unwrap_or(2)),
             root: Decision::new(Player::new(None), String::from("root"),
                                 None, None, None, py),
         }
