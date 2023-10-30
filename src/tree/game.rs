@@ -3,6 +3,7 @@ use pyo3::{prelude::*};
 use crate::export::dot;
 use crate::export::latex;
 use crate::tree::node::*;
+use crate::tree::utility::Variable;
 
 #[pyclass]
 #[derive(Clone)]
@@ -10,9 +11,11 @@ pub struct Game {
     #[pyo3(get)]
     title: String,
     #[pyo3 (get)]
-    pub player: Vec<Player>,
+    pub players: Vec<Player>,
     #[pyo3(get)]
-    gametype: Type,
+    utility: Option<Vec<Vec<Vec<i32>>>>,
+    #[pyo3(get)]
+    variable: Option<Vec<Vec<Vec<Variable>>>>,
     #[pyo3(get)]
     pub root: Py<Decision>,
 }
@@ -23,11 +26,13 @@ impl Game {
     // currently all fields are optional and will create sensible defaults.
     // TODO: infer gametype based on input.
     // TODO: overload new function with support for matrix input
-    fn new(title: Option<String>, players: Option<usize>, gametype: Option<Type>,  py:Python) -> Self {
+    //#[pyo3(signature = (title="Untitled Game", normal=None, players=2))]
+    fn new(title: Option<String>, utility: Option<Vec<Vec<Vec<i32>>>>, variable: Option<Vec<Vec<Vec<Variable>>>>, players: Option<usize>,  py:Python) -> Self {
         Game{
-            title: title.unwrap_or("Untitled Game".parse().unwrap()),
-            gametype: gametype.unwrap_or(Type::Normal),
-            player: create_players(players.unwrap_or(2)),
+            title: title.unwrap_or("Untitled Game".to_string()),
+            utility,
+            variable,
+            players: create_players(players.unwrap_or(2)),
             root: Decision::new(Player::new(None), String::from("root"),
                                 None, None, None, py),
         }
@@ -36,13 +41,17 @@ impl Game {
         dot::export_dot(self.clone(), py)
     }
     pub fn export_latex(&self, scale: Option<f32>, filename: Option<&str>, py: Python) -> Result<(), Error>{
+        let is_normal = match (&self.utility, &self.variable) {
+            (Some(_), _) | (_, Some(_)) => true,
+            _ => false,
+        };
         let scale = scale.unwrap_or(2.5);
         match filename {
             None => {
-                latex::generate_latex(self.clone(), scale, py);
+                latex::to_terminal(self.clone(), scale, is_normal, py);
                 Ok(())
             },
-            Some(filename) => latex::write_to_file(self.clone(), scale, filename, py),
+            Some(filename) => latex::to_file(self.clone(), scale, filename, is_normal, py),
         }.expect("Error");
         Ok(())
     }

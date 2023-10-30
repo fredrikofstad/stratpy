@@ -10,9 +10,26 @@ use crate::tree::utility::*;
 #[derive(Debug, Eq, PartialEq, Hash, Clone)]
 struct SetKey(usize, String);
 
-pub fn write_to_file(game: Game, scale: f32, file_path: &str, py: Python)
+pub fn to_terminal(game: Game, scale: f32, is_normal: bool, py: Python) -> String{
+    if is_normal {
+        generate_extensive(game, scale, py)
+    } else {
+        generate_normal(game, scale, py)
+    }
+}
+
+pub fn to_file(game: Game, scale: f32, file_path: &str, is_normal: bool, py: Python) -> Result<(), Error>{
+    Ok(())
+}
+
+pub fn write_to_file(game: Game, scale: f32, file_path: &str, is_normal: bool, py: Python)
     -> Result<(), Error> {
-    let latex = generate_latex(game, scale, py);
+
+    let latex = if is_normal {
+        generate_extensive(game, scale, py)
+    } else {
+        generate_normal(game, scale, py)
+    };
 
     let mut file = OpenOptions::new()
         .write(true)
@@ -21,7 +38,11 @@ pub fn write_to_file(game: Game, scale: f32, file_path: &str, py: Python)
     file.write_all(latex.as_ref())?;
     Ok(())
 }
-pub fn generate_latex(game: Game, scale: f32, py: Python) -> String {
+
+pub fn generate_normal(game:Game, scale: f32, py: Python) -> String {
+    return "".to_string()
+}
+pub fn generate_extensive(game: Game, scale: f32, py: Python) -> String {
     // seperate style from nodes
     // leave style detailes for users in latex
     // idealy choose level distance based on average player, or action name lengths
