@@ -9,13 +9,13 @@ use crate::tree::utility::Variable;
 #[derive(Clone)]
 pub struct Game {
     #[pyo3(get)]
-    title: String,
+    pub title: String,
     #[pyo3 (get)]
-    pub players: Vec<Player>,
+    pub player: Vec<Player>,
     #[pyo3(get)]
-    utility: Option<Vec<Vec<Vec<i32>>>>,
+    pub utility: Option<Vec<Vec<Vec<i32>>>>,
     #[pyo3(get)]
-    variable: Option<Vec<Vec<Vec<Variable>>>>,
+    pub variable: Option<Vec<Vec<Vec<Variable>>>>,
     #[pyo3(get)]
     pub root: Py<Decision>,
 }
@@ -32,9 +32,9 @@ impl Game {
             title: title.unwrap_or("Untitled Game".to_string()),
             utility,
             variable,
-            players: create_players(players.unwrap_or(2)),
+            player: create_players(players.unwrap_or(2)),
             root: Decision::new(Player::new(None), String::from("root"),
-                                None, None, None, py),
+                                None, None, None, None, py),
         }
     }
     pub fn export(&self, py: Python) -> String {
@@ -45,17 +45,17 @@ impl Game {
             (Some(_), _) | (_, Some(_)) => true,
             _ => false,
         };
+        println!("{}, {:?}", is_normal, filename);
         let scale = scale.unwrap_or(2.5);
         match filename {
             None => {
                 latex::to_terminal(self.clone(), scale, is_normal, py);
                 Ok(())
             },
-            Some(filename) => latex::to_file(self.clone(), scale, filename, is_normal, py),
+            Some(filename) => latex::write_to_file(self.clone(), scale, filename, is_normal, py),
         }.expect("Error");
         Ok(())
     }
-
 
     // TODO: consider removing the abstraction
     pub fn get_ref(&self, py: Python) -> Py<Game>{
@@ -114,5 +114,6 @@ mod tests {
     fn test_add() {
         assert_eq!(add(1, 2), 3);
     }
+
 
 }

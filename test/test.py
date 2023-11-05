@@ -1,4 +1,3 @@
-import stratpy as sp
+from stratpy import *
 
-# calling functions from rust
-print(sp.sum_as_string(5,20))
+normal = Game("test", )

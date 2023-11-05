@@ -9,8 +9,16 @@ a1, a2, b1, b2, c1, c2, d1, d2 = (Variable("a_1"), Variable("a_2"), Variable("b_
 normal_variable = [[(a1, a2), (b1, b2)],
                    [(c1, c2), (d1, d2)]]
 
-normal_game = Game("Normal Game", utility=normal_utility)
-var_game = Game("Normal Game (var)", variable=normal_variable)
+normal = Game("Normal Game", utility=normal_utility)
+var = Game("Normal Game (var)", variable=normal_variable)
 
-print(normal_game.utility)
-print(var_game.variable)
+p1, p2 = normal.player[1], normal.player[2]
+p1.name = "South Korea"
+p1.actions = ["Negotiate", "Refrain"]
+p2.name = "Japan"
+p2.actions = ["Negotiate", "Retaliate"]
+
+print(normal.utility)
+print(var.variable)
+print(p1.actions)
+print(p2.actions)

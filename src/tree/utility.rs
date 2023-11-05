@@ -38,6 +38,9 @@ impl Variable {
             equal: Vec::new()
         }
     }
+    fn __repr__(&self) -> String {
+        self.name.clone()
+    }
 
     // overloads python's comparison operators in order to let the user
     // define preferences. a > b when a is preffered over b, and == when the

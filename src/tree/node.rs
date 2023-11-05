@@ -13,6 +13,7 @@ pub struct Decision {
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
     #[pyo3(get)] pub information_set: Option<usize>,
+    #[pyo3(get)] pub label: Option<String>,
     pub utility: Utility,
     pub id: usize,
 }
@@ -21,7 +22,7 @@ pub struct Decision {
 impl Decision {
     #[new]
     pub fn new(player: Player, name: String, utility: Option<Vec<i32>>, variable: Option<Vec<Variable>>,
-               information_set: Option<usize>, py: Python) -> Py<Decision> {
+               information_set: Option<usize>, label: Option<String>, py: Python) -> Py<Decision> {
         Py::new(py, Decision{
             player,
             name,
@@ -37,6 +38,7 @@ impl Decision {
                 }
             },
             information_set,
+            label,
             id: VAR_ID.fetch_add(1, Ordering::SeqCst),
         }).unwrap()
     }
@@ -73,6 +75,7 @@ impl Decision {
 #[derive(Clone)]
 pub struct Player {
     #[pyo3(get, set)] pub name: String,
+    #[pyo3(get, set)] pub actions: Vec<String>,
 }
 
 
@@ -80,7 +83,11 @@ pub struct Player {
 impl Player {
     #[new]
     pub fn new(name: Option<String>) -> Self {
-        Player{ name: name.unwrap_or("player".to_string()), }
+        Player{ name: name.unwrap_or("player".to_string()),
+                actions: Vec::new()}
+    }
+    fn __repr__(&self) -> String {
+        self.name.clone()
     }
 }
 
