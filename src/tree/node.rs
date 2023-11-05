@@ -9,7 +9,7 @@ static VAR_ID: AtomicUsize = AtomicUsize::new(0);
 #[pyclass]
 #[derive(Clone)]
 pub struct Decision {
-    #[pyo3(get)] pub player: Player, // make nature own struct?
+    #[pyo3(get)] pub player: Py<Player>, // make nature own struct?
     #[pyo3(get, set)] pub name: String,
     #[pyo3(get)] pub children: Vec<Py<Decision>>,
     #[pyo3(get)] pub information_set: Option<usize>,
@@ -21,7 +21,7 @@ pub struct Decision {
 #[pymethods]
 impl Decision {
     #[new]
-    pub fn new(player: Player, name: String, utility: Option<Vec<i32>>, variable: Option<Vec<Variable>>,
+    pub fn new(player: Py<Player>, name: String, utility: Option<Vec<i32>>, variable: Option<Vec<Variable>>,
                information_set: Option<usize>, label: Option<String>, py: Python) -> Py<Decision> {
         Py::new(py, Decision{
             player,
@@ -66,8 +66,8 @@ impl Decision {
         slf.borrow_mut(py).children.push(other.clone());
         slf
     }
-    pub fn __str__(&self) -> String {
-        format!("(player: {} action: {})", self.player.name, self.name)
+    pub fn __str__(&self, py: Python) -> String {
+        format!("(player: {} action: {})", self.player.borrow_mut(py).name, self.name)
     }
 }
 
@@ -82,9 +82,9 @@ pub struct Player {
 #[pymethods]
 impl Player {
     #[new]
-    pub fn new(name: Option<String>) -> Self {
-        Player{ name: name.unwrap_or("player".to_string()),
-                actions: Vec::new()}
+    pub fn new(name: Option<String>, py: Python) -> Py<Player> {
+        Py::new(py, Player{ name: name.unwrap_or("player".to_string()),
+                actions: Vec::new()}).unwrap()
     }
     fn __repr__(&self) -> String {
         self.name.clone()

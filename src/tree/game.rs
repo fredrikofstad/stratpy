@@ -10,8 +10,8 @@ use crate::tree::utility::Variable;
 pub struct Game {
     #[pyo3(get)]
     pub title: String,
-    #[pyo3 (get)]
-    pub player: Vec<Player>,
+    #[pyo3 (get, set)]
+    pub player: Vec<Py<Player>>,
     #[pyo3(get)]
     pub utility: Option<Vec<Vec<Vec<i32>>>>,
     #[pyo3(get)]
@@ -32,8 +32,8 @@ impl Game {
             title: title.unwrap_or("Untitled Game".to_string()),
             utility,
             variable,
-            player: create_players(players.unwrap_or(2)),
-            root: Decision::new(Player::new(None), String::from("root"),
+            player: create_players(players.unwrap_or(2), py),
+            root: Decision::new(Player::new(None, py), String::from("root"),
                                 None, None, None, None, py),
         }
     }
@@ -45,7 +45,6 @@ impl Game {
             (Some(_), _) | (_, Some(_)) => true,
             _ => false,
         };
-        println!("{}, {:?}", is_normal, filename);
         let scale = scale.unwrap_or(2.5);
         match filename {
             None => {
@@ -75,7 +74,7 @@ impl Game {
         let mut str = format!("title: {} root: {} children: ", self.title, self.root.borrow_mut(py).name);
         let children = self.root.borrow_mut(py).children.clone();
         for child in children{
-            str.push_str(&*child.borrow_mut(py).__str__());
+            str.push_str(&*child.borrow_mut(py).__str__(py));
         }
         str
     }
@@ -86,10 +85,10 @@ impl Game {
 }
 
 // Creates a vector of players, where the 0th element is reserved for nature
-pub fn create_players(player_num: usize) -> Vec<Player>{
-    let mut players: Vec<Player> = Vec::new();
-    players.push(Player::new(Option::from("Nature".to_string())));
-    for i in 0..player_num {players.push(Player::new(format!("Player {}", i+1).into()))}
+pub fn create_players(player_num: usize, py: Python) -> Vec<Py<Player>>{
+    let mut players: Vec<Py<Player>> = Vec::new();
+    players.push(Player::new(Option::from("Nature".to_string()), py));
+    for i in 0..player_num {players.push(Player::new(format!("Player {}", i + 1).into(), py))}
     players
 }
 

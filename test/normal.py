@@ -14,11 +14,9 @@ var = Game("Normal Game (var)", variable=normal_variable)
 
 p1, p2 = normal.player[1], normal.player[2]
 p1.name = "South Korea"
+
 p1.actions = ["Negotiate", "Refrain"]
 p2.name = "Japan"
 p2.actions = ["Negotiate", "Retaliate"]
 
-print(normal.utility)
-print(var.variable)
-print(p1.actions)
-print(p2.actions)
+normal.export_latex(3.5, "output/normal.tex")
