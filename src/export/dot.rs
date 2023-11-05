@@ -7,7 +7,7 @@ use crate::tree::utility::Utility::Numeral;
 
 pub fn export_dot(mut game: Game, py: Python) -> String {
     let mut graph = Graph::new();
-    let mut new_root = game.root.borrow(py).clone();
+    let new_root = game.root.borrow(py).clone();
     new_root.player.borrow_mut(py).name = new_root.children[0].borrow(py).clone().player.borrow(py).name.clone();
     game.root = Py::new(py, new_root).unwrap();
     add_nodes_to_graph(game.root.clone(), &mut graph, py);
