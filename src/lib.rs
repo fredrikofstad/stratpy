@@ -6,6 +6,7 @@ use crate::tree::node::*;
 use crate::tree::utility::*;
 pub mod tree;
 pub mod export;
+pub mod algorithms;
 
 /// Packing all rust structs and functions into the stratpy module.
 #[pymodule]

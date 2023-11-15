@@ -223,44 +223,8 @@ mod tests {
     //use super::*;
     #[test]
     fn test_latex_string() {
-        let mut vec = vec![vec![1, 2], vec![3, 4]];
+        let vec = vec![vec![1, 2], vec![3, 4]];
         println!("{}", vec[1][1])
-    }
-    #[test]
-    fn test_normal(){
-        let p2a = vec!["p2a[0]", "p2a[1]"];
-        let p1a = vec!["p1a[0]", "p1a[1]"];
-        let utility = vec![vec!["utility[0][0]", "utility[0][1]"], vec!["utility[1][0]", "utility[1][1]"]];
-
-        let mut output = String::new();
-
-        for (i, p2_item) in p2a.iter().enumerate() {
-            if i > 0 {
-                output += " & ";
-            }
-            output += &format!("{} ", p2_item);
-        }
-        output += "\\\\";
-
-        for (i, p1_item) in p1a.iter().enumerate() {
-            output += &format!("\n{} ", p1_item);
-
-            for (j, utility_row) in utility.iter().enumerate() {
-                if j > 0 {
-                    output += " & ";
-                }
-                for (k, utility_item) in utility_row.iter().enumerate() {
-                    if k > 0 {
-                        output += " & ";
-                    }
-                    output += utility_item;
-                }
-            }
-
-            output += "\\\\";
-        }
-
-        println!("{}", output);
     }
 
 }

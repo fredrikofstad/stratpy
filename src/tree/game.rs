@@ -37,6 +37,17 @@ impl Game {
                                 None, None, None, None, py),
         }
     }
+    fn get_players(&self, py: Python) -> String {
+        // change this in future for n player games
+        let p1 = self.player[1].borrow(py).name.clone();
+        let p2 = self.player[2].borrow(py).name.clone();
+        format!("player 1: {p1}, player 2: {p2}")
+    }
+    pub fn summary(&self, py: Python) {
+        let (title, players) = (self.title.clone(), self.get_players(py));
+        let summary = format!("Game: {title}, \n Players: {players}");
+        println!("{}", summary)
+    }
     pub fn export(&self, py: Python) -> String {
         dot::export_dot(self.clone(), py)
     }
