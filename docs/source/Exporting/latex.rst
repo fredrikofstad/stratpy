@@ -1,4 +1,6 @@
-# Exporting to latex
+==================
+Exporting to latex
+==================
 
 To export to your game model to latex, use the export_latex() method of the game class.
 
