@@ -34,10 +34,10 @@ Example:
 >>> # Creating Utility Variables
 >>> s1, s2 = Variable("S_1"), Variable("S_2")
 >>> d1, d2 = Variable("D_1"), Variable("D_2")
->>> s1_g, s2_a = Variable("S_1 + G"), Variable("S_2 - A")
+>>> g, c = Variable("G"), Variable("C")
 >>> # setting the players preferences
->>> s1_g > s1 > d1
->>> s2 > s2_a > d2
+>>> g > s1 > d1
+>>> s2 > c > d2
 >>> # Adding nodes
 >>> (game5_1a + Decision(p1, "Refrain", variable=(s1, s2))
 >>>           + (Decision(p1, "Persist") + Decision(p2, "Punish", variable=(d1, d2)) +
@@ -47,7 +47,7 @@ Example:
 
 This code will result in latex code that will generate the following:
 
-.. tikz:: Tree test
+.. tikz::
    :align: left
 
    % Style for nodes
@@ -61,6 +61,6 @@ This code will result in latex code that will generate the following:
     \node(0)[solid,label=above:{South Korea}]{}child{node(1)[hollow, label=below:{$(S_1, S_2)$}]{}
     edge from parent node[left]{$Refrain$}}child{node(2)[solid, label=above right:{Japan}]{}
     child{node(3)[hollow, label=below:{$(D_1, D_2)$}]{}
-    edge from parent node[left]{$Punish$}}child{node(4)[hollow, label=below:{$(S_1 + G, S_2 - A)$}]{}
+    edge from parent node[left]{$Punish$}}child{node(4)[hollow, label=below:{$(G, C)$}]{}
     edge from parent node[right]{$Ignore$}}edge from parent node[right]{$Persist$}};
     \end{normalsize}
