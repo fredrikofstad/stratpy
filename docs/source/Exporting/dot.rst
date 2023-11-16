@@ -1,4 +1,6 @@
-## Exporting to Dot format
+==================
+Exporting to Dot format
+==================
 
 To export to Graphviz using the DOT language use the following method:
 
