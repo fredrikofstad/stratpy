@@ -23,3 +23,9 @@ Make sure the output folder is created, or an error will occur.
 After creating the latex, further styling can be done manually.
 Instead of bogging the function down with optional parameters,
 simplicity was favored.
+
+.. tikz:: Tree test
+   :align: left
+
+   \draw[thick,rounded corners=8pt]
+   (0,0)--(0,2)--(1,3.25)--(2,2)--(2,0)--(0,2)--(2,2)--(0,0)--(2,0);

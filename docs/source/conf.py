@@ -18,7 +18,8 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'myst_parser',
-    'sphinx_copybutton'
+    'sphinx_copybutton',
+    'sphinxcontrib.tikz',
 ]
 
 intersphinx_mapping = {
@@ -29,6 +30,9 @@ intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 
+# tikz
+tikz_proc_suite = 'GhostScript'
+tikz_tikzlibraries = "calc"
 myst_enable_extensions = [
     "colon_fence",
     "deflist",
