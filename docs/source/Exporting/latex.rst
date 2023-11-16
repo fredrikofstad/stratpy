@@ -51,6 +51,7 @@ This code will result in latex code that will generate the following:
    :align: left
 
    % Style for nodes
+    \begin{normalsize}
     \tikzstyle{solid}=[circle,draw,inner sep=1.2,fill=black]
     \tikzstyle{hollow}=[circle,draw,inner sep=1.2]
     % Spacing for every level of the tree
@@ -62,3 +63,4 @@ This code will result in latex code that will generate the following:
     child{node(3)[hollow, label=below:{$(D_1, D_2)$}]{}
     edge from parent node[left]{$Punish$}}child{node(4)[hollow, label=below:{$(S_1 + G, S_2 - A)$}]{}
     edge from parent node[right]{$Ignore$}}edge from parent node[right]{$Persist$}};
+    \end{normalsize}
