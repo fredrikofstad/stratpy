@@ -41,7 +41,7 @@ Example:
 >>> # Adding nodes
 >>> (game5_1a + Decision(p1, "Refrain", variable=(s1, s2))
 >>>           + (Decision(p1, "Persist") + Decision(p2, "Punish", variable=(d1, d2)) +
->>>                                        Decision(p2, "Ignore", variable=(s1_g, s2_a))))
+>>>                                        Decision(p2, "Ignore", variable=(g, c))))
 >>>
 >>> game5_1a.export_latex(1.5, output_dir + "5-1a.tex")
 
